@@ -167,6 +167,9 @@ this.skygearService.getSkygear()
 
 That is it. Start building your awesome app now. :smile:
 
+You may check out a example repo created following this guide.
+
+https://github.com/skygear-demo/skygear-angular
 
 # React Native
 
