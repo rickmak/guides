@@ -191,6 +191,3 @@ skygearCloud.handler('json', (req) => {
 	userRequired: false
 });
 ```
-
-[werkzeug-request-response]: http://werkzeug.pocoo.org/docs/wrappers/
-[werkzeug-doc]: http://werkzeug.pocoo.org/docs/
