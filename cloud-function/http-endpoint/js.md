@@ -50,6 +50,17 @@ handler(path: string, func: function(request: *, options: *): object, authRequir
   // not accepting:
   // - https://<your-end-point>/abc
   // - https://<your-end-point>/abc/
+
+  // Named parameter in handler
+  skygearCloud.handler('downloads/{platform}/{version}')
+  // accepting:
+  // - https://<your-end-point>/download/ios
+  //   platform: ios, version: undefined
+  // - https://<your-end-point>/download/android/1.1
+  //   platform: android, version: 1.1 
+  // this will override another handler of 'downloads/' if it exists
+  // not accepting:
+  // - https://<your-end-point>/download
   ```
 
   When a route is not recognized, it will give you the response
@@ -107,6 +118,20 @@ handler(path: string, func: function(request: *, options: *): object, authRequir
   You can obtain the user ID of the authenticated user by
   `skygear.auth.currentUser()`.
 
+- **`params` from the URL path**
+  
+  You can specific named argument in URL path. The parsed value will pass to
+  your function via the request object as follow
+
+  ```
+  skygearCloud.handler('downloads/{platform}/{version}', (req) => {
+   // Take request to /downloads/osx/1.1.2?format=zip as an example
+   console.log(req.params.platform); // got `osx`
+   console.log(req.params.version); // got `1.1.2`
+   console.log(req.params.build); // got undefined
+   console.log(req.url.path); // you also got the full path
+ });
+  ```
 
 ## Return Value
 
@@ -162,17 +187,6 @@ To parse data from a JSON request body:
 skygearCloud.handler('json', (req) => {
 	let body = JSON.parse(req.body);
 	return { 'name': body.name};
-}, {
-	userRequired: false
-});
-```
-
-To obtain the full request URL:
-
-```javascript
-// curl https://<your-endpoint>/url/more/levels?level=3
-skygearCloud.handler('url/', (req) => {
-	return { 'path': req.url.path};
 }, {
 	userRequired: false
 });
